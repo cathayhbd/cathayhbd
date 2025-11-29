@@ -127,20 +127,28 @@
     <canvas id="confettiCanvas"></canvas>
 
     <script>
-        // 防止雙指捏合（pinch zoom）與快速雙擊放大
+        // 防止雙指捏合（pinch zoom）與快速雙擊放大 — 不會阻擋按鈕上的點擊
         (function() {
             let lastTouchEnd = 0;
-            // 阻止多指觸控（pinch）
+            // 阻止多指觸控（pinch），但如果任何觸點位於按鈕 (.btn) 則放行
             document.addEventListener('touchstart', function(e) {
                 if (e.touches && e.touches.length > 1) {
+                    for (let i = 0; i < e.touches.length; i++) {
+                        const t = e.touches[i];
+                        const el = document.elementFromPoint(t.clientX, t.clientY);
+                        if (el && el.closest && el.closest('.btn')) return; // 觸點在按鈕上，允許
+                    }
                     e.preventDefault();
                 }
             }, { passive: false });
 
-            // 阻止快速連續兩次 touchend（double-tap）
+            // 阻止快速連擊 (double-tap zoom)，但允許按鈕的快速點擊
             document.addEventListener('touchend', function(e) {
                 const now = Date.now();
-                if (now - lastTouchEnd <= 300) {
+                const touch = e.changedTouches && e.changedTouches[0];
+                const el = touch ? document.elementFromPoint(touch.clientX, touch.clientY) : (e.target && e.target.nodeType === 1 ? e.target : null);
+                const isBtn = el && el.closest && el.closest('.btn');
+                if (now - lastTouchEnd <= 300 && !isBtn) {
                     e.preventDefault();
                 }
                 lastTouchEnd = now;
