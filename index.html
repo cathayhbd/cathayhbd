@@ -24,45 +24,50 @@
         .container {
             text-align: center;
             padding: 20px;
+            width: 100%;
         }
 
         .text {
             color: white;
-            font-size: 32px;
+            font-size: clamp(24px, 8vw, 32px);
             font-weight: bold;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .countdown {
             color: white;
-            font-size: 24px;
             margin-top: 40px;
             font-weight: bold;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(8px, 2vw, 20px);
         }
 
         .countdown-item {
             display: inline-block;
-            margin: 0 10px;
             background: rgba(255, 255, 255, 0.2);
-            padding: 10px 20px;
+            padding: clamp(8px, 2vw, 20px);
             border-radius: 8px;
+            min-width: clamp(60px, 18vw, 100px);
         }
 
         .countdown-number {
-            font-size: 28px;
+            font-size: clamp(20px, 6vw, 28px);
             color: #ffff00;
         }
 
         .countdown-label {
-            font-size: 14px;
+            font-size: clamp(12px, 3vw, 14px);
             color: white;
+            margin-top: 4px;
         }
 
         /* 按鈕樣式 */
         .btn {
             margin-top: 30px;
-            padding: 10px 20px;
-            font-size: 18px;
+            padding: clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px);
+            font-size: clamp(14px, 4vw, 18px);
             color: white;
             background-color: #007bff;
             border: none;
