@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>執行 Scrape</title>
+  <title>官網常見問題的小工具</title>
   <style>
     body{font-family:system-ui,Segoe UI,Arial;max-width:900px;margin:24px auto;padding:12px}
     button{padding:8px 14px;font-size:16px}
@@ -11,12 +11,12 @@
   </style>
 </head>
 <body>
-  <h2>執行 Scrape Cathay FAQ</h2>
-  <p>按下按鈕後，會從 Replit 後端執行 PHP 抓取資料並自動下載 CSV 到你的電腦。</p>
+  <h2>取得最新的常見問題csv檔</h2>
+  <p>按下按鈕後，會從官網的常見問題抓取資料並下載 CSV 到你的電腦。</p>
 
-  <button id="runBtn">執行抓取並下載</button>
+  <button id="runBtn">執行</button>
 
-  <h3>狀態</h3>
+  <h3>Debug</h3>
   <pre id="output">尚未執行。</pre>
 
   <script>
@@ -24,7 +24,7 @@
     const out = document.getElementById('output');
 
     function convertToCSV(data) {
-      const headers = ['問題', '解答'];
+      const headers = ['問題', '回答'];
       const rows = [headers.map(h => `"${h}"`).join(',')];
       
       data.forEach(row => {
