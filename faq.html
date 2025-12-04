@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>執行 Scrape</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Arial;max-width:900px;margin:24px auto;padding:12px}
+    button{padding:8px 14px;font-size:16px}
+    pre{background:#111;color:#dcdcdc;padding:12px;border-radius:6px;white-space:pre-wrap;word-break:break-word}
+  </style>
+</head>
+<body>
+  <h2>執行 Scrape Cathay FAQ</h2>
+  <p>按下按鈕後，會從 Replit 後端執行 PHP 抓取資料，結果會顯示在下方。</p>
+
+  <button id="runBtn">執行抓取</button>
+  <button id="openBtn">在新分頁開啟 (fallback)</button>
+
+  <h3>輸出</h3>
+  <pre id="output">尚未執行。</pre>
+
+  <script>
+    const runBtn = document.getElementById('runBtn');
+    const openBtn = document.getElementById('openBtn');
+    const out = document.getElementById('output');
+
+    runBtn.addEventListener('click', async () => {
+      runBtn.disabled = true;
+      out.textContent = '正在執行，請稍候...';
+      try {
+        // 你的 Replit API 端點
+        const backendUrl = 'https://ac571460-04b4-4a4e-b322-81b4d92541b3-00-qkmkhd98o7vj.spock.replit.dev/api/cathay-faq';
+        const resp = await fetch(backendUrl, { method: 'GET' });
+        if (!resp.ok) {
+          const body = await resp.text().catch(()=>'(無回傳內容)');
+          out.textContent = `HTTP ${resp.status} ${resp.statusText}\n\n${body}`;
+        } else {
+          const text = await resp.text();
+          out.textContent = text || '(沒有輸出)';
+        }
+      } catch (err) {
+         out.textContent = '執行失敗：' + err.toString();
+      } finally {
+         runBtn.disabled = false;
+      }
+    });
+
+    openBtn.addEventListener('click', () => {
+      window.open('https://ac571460-04b4-4a4e-b322-81b4d92541b3-00-qkmkhd98o7vj.spock.replit.dev/api/cathay-faq', '_blank');
+    });
+  </script>
+</body>
+</html>
